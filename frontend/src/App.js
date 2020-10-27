@@ -1,28 +1,21 @@
-import React, {useState} from 'react'
+import React, {useEffect, useState} from 'react'
+import axios from 'axios'
 
 import './App.css';
 
-const list = [
-  {
-    "id": 1,
-    "title": "1st todo",
-    "body": "Learn Django properly."
-  },
-  {
-    "id": 2,
-    "title": "Second item",
-    "body": "Learn Python."
-  },
-  {
-    "id": 3,
-    "title": "Learn HTTP",
-    "body": "It's important."
-  }
-]
-
 
 function App() {
-  const [todos, setTodos] = useState(list)
+  const [todos, setTodos] = useState([])
+
+  useEffect(() => {
+    axios.get("http://127.0.0.1:8000/api/")
+    .then(res => {
+      setTodos(res.data)
+    })
+    .catch(err => {
+      console.error(err)
+    })}, [])
+
   return (
     <div>
       {todos.map(todo => (
